@@ -1,0 +1,50 @@
+name: deploy to github pages
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name : Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add environment variables from fvm_config.json
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+        with:
+          path: ./.fvm/fvm_config.json
+      
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Build web
+        run: flutter build web --release --web-renderer canvaskit --base-href /my_slides/
+
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: build/web
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/deploy-pages@v3
+        id: deployment
