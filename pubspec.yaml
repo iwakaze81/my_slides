@@ -34,6 +34,3 @@ flutter:
     - family: JetbrainsMono
       fonts:
         - asset: packages/slick_slides/fonts/jetbrainsmono.ttf
-    - family: NotoSansJP
-      fonts:
-        - asset: assets/fonts/NotoSansJP-VariableFont_wght.ttf

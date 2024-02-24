@@ -14,7 +14,6 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
-        fontFamily: 'NotoSansJP',
       ),
       initialRoute: '/',
       onGenerateRoute: (settings) {
@@ -23,7 +22,8 @@ class App extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const HomePage());
           case '/serverpod_slides':
             return MaterialPageRoute(
-                builder: (context) => const ServerpodSlides());
+              builder: (context) => const ServerpodSlides(),
+            );
         }
 
         return MaterialPageRoute(
